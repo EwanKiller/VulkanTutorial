@@ -47,6 +47,10 @@ namespace Tutorial01 {
         VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
         VkQueue presentQueue;
         VkSwapchainKHR swapChain;
+        std::vector<VkImage> swapChainImages;
+        VkFormat swapChainImageFormat;
+        VkExtent2D swapChainExtent;
+        std::vector<VkImageView> swapChainImageViews;
 
         void initWindow();
         void initVulkan();
@@ -106,6 +110,9 @@ namespace Tutorial01 {
         VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 
         void createSwapChain();
+
+        void createImageViews();
+
     };
 
 } // Tutorial01

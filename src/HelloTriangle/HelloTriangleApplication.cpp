@@ -41,6 +41,7 @@ namespace Tutorial01 {
         pickPhysicalDevice();
         createLogicalDevice();
         createSwapChain();
+        createImageViews();
     }
 
     void HelloTriangleApplication::mainLoop() {
@@ -50,19 +51,17 @@ namespace Tutorial01 {
     }
 
     void HelloTriangleApplication::cleanup() {
+        for (auto swapChainImageView : swapChainImageViews) {
+            vkDestroyImageView(device,swapChainImageView, nullptr);
+        }
         vkDestroySwapchainKHR(device,swapChain, nullptr);
         vkDestroyDevice(device, nullptr);
-
         if (enableValidationLayers) {
             DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
         }
-
         vkDestroySurfaceKHR(instance, surface, nullptr);
-
         vkDestroyInstance(instance, nullptr);
-
         glfwDestroyWindow(window);
-
         glfwTerminate();
     }
 
@@ -435,8 +434,35 @@ namespace Tutorial01 {
         if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain) != VK_SUCCESS) {
             throw std::runtime_error("failed to create swap chain");
         }
-    };
+        vkGetSwapchainImagesKHR(device, swapChain, &imageCount, nullptr);
+        swapChainImages.resize(imageCount);
+        vkGetSwapchainImagesKHR(device,swapChain,&imageCount,swapChainImages.data());
+        swapChainImageFormat = surfaceFormat.format;
+        swapChainExtent = extent;
+    }
+    void HelloTriangleApplication::createImageViews(){
+        swapChainImageViews.resize(swapChainImages.size());
+        for (uint32_t index = 0; index < swapChainImageViews.size(); ++index) {
+          VkImageViewCreateInfo createInfo{VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO};
+          createInfo.image = swapChainImages[index];
+          createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+          createInfo.format = swapChainImageFormat;
+          createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+          createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+          createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+          createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+          createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+          createInfo.subresourceRange.baseMipLevel = 0;
+          createInfo.subresourceRange.levelCount = 1;
+          createInfo.subresourceRange.baseArrayLayer = 0;
+          createInfo.subresourceRange.layerCount = 1;
 
+          if (vkCreateImageView(device,&createInfo, nullptr, &swapChainImageViews[index]) != VK_SUCCESS) {
+            throw std::runtime_error("failed to create swapchain image view");
+          }
+        }
+
+    }
 
 } // Tutorial01
 
