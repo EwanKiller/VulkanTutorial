@@ -51,6 +51,10 @@ namespace Tutorial01 {
         VkFormat swapChainImageFormat;
         VkExtent2D swapChainExtent;
         std::vector<VkImageView> swapChainImageViews;
+        VkRenderPass renderPass;
+        VkPipelineLayout pipelineLayout;
+        VkPipeline graphicsPipeline;
+        std::vector<VkFramebuffer> swapChainFramebuffers;
 
         void initWindow();
         void initVulkan();
@@ -76,15 +80,15 @@ namespace Tutorial01 {
                 "VK_KHR_portability_subset",
         };
 
-        bool checkExtensionsSupport(const std::vector<const char*> extensions);
+        static bool checkExtensionsSupport(const std::vector<const char*>& extensions);
 
         bool checkValidationLayerSupport();
 
-        bool checkDeviceExtensionSupport(VkPhysicalDevice device);
+        bool checkDeviceExtensionSupport(VkPhysicalDevice physicalDevice);
 
-        std::vector<const char*> getRequiredExtensions();
+        std::vector<const char*> getRequiredExtensions() const;
 
-        void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+        static void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 
         void setupDebugMessenger();
 
@@ -101,11 +105,11 @@ namespace Tutorial01 {
 
         void createSurface();
 
-        SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
+        SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice dv);
 
-        VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+        static VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 
-        VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR> availablePresentModes);
+        static VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 
         VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 
@@ -113,6 +117,15 @@ namespace Tutorial01 {
 
         void createImageViews();
 
+        static std::vector<char> readFile(const std::string& filename);
+
+        void createRenderPass();
+
+        void createGraphicPipeline();
+
+        VkShaderModule createShaderModule(const std::vector<char>& code);
+
+        void createFramebuffers();
     };
 
 } // Tutorial01
