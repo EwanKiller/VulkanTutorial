@@ -55,6 +55,11 @@ namespace Tutorial01 {
         VkPipelineLayout pipelineLayout;
         VkPipeline graphicsPipeline;
         std::vector<VkFramebuffer> swapChainFramebuffers;
+        VkCommandPool commandPool;
+        VkCommandBuffer commandBuffer;
+        VkSemaphore imageAvailableSemaphore;
+        VkSemaphore renderFinishedSemaphore;
+        VkFence inFlightFence;
 
         void initWindow();
         void initVulkan();
@@ -126,6 +131,16 @@ namespace Tutorial01 {
         VkShaderModule createShaderModule(const std::vector<char>& code);
 
         void createFramebuffers();
+
+        void createCommandPool();
+
+        void createCommandBuffer();
+
+        void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+
+        void drawFrame();
+
+        void createSyncObjects();
     };
 
 } // Tutorial01
