@@ -174,8 +174,7 @@ namespace Tutorial01 {
     }
 
     void HelloTriangleApplication::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo) {
-        createInfo = {};
-        createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+        createInfo = {VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT};
         createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
                 VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT|
                 VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
@@ -806,6 +805,13 @@ namespace Tutorial01 {
         || vkCreateFence(device,&fenceCreateInfo, nullptr,&inFlightFence) != VK_SUCCESS) {
             throw std::runtime_error("failed to create semaphore !");
         }
+    }
+
+    void HelloTriangleApplication::run() {
+        initWindow();
+        initVulkan();
+        mainLoop();
+        cleanup();
     }
 } // Tutorial01
 
