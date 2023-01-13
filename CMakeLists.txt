@@ -5,14 +5,14 @@ project(VulkanLearn)
 set(CMAKE_CXX_STANDARD 17)
 
 # glfw3
-include_directories(/opt/homebrew/Cellar/glfw/3.3.7/include)
-link_directories(/opt/homebrew/Cellar/glfw/3.3.7/lib)
+include_directories($ENV{GLFW_INC})
+link_directories($ENV{GLFW_LIB})
 
 # glm
-include_directories(/opt/homebrew/Cellar/glm/0.9.9.8/include/glm/include)
+include_directories($ENV{GLM_INC})
 
 # vulkan
-link_directories(/Users/ewan/VulkanSDK/1.3.216.0/macOS/lib)
-include_directories(/Users/ewan/VulkanSDK/1.3.216.0/macOS/include)
+link_directories($ENV{VULKAN_LIB})
+include_directories($ENV{VULKAN_INC})
 
 add_subdirectory(src)
