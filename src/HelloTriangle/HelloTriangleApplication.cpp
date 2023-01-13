@@ -134,7 +134,7 @@ namespace Tutorial01 {
 
             createInfo.pNext = nullptr;
         }
-        createInfo.flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+        createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
 
         checkExtensionsSupport(extensions);
         if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
@@ -178,7 +178,7 @@ namespace Tutorial01 {
             extensions.push_back("VK_KHR_portability_enumeration");
             extensions.push_back("VK_KHR_get_physical_device_properties2");
         }
-
+        extensions.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
         return extensions;
     }
 
