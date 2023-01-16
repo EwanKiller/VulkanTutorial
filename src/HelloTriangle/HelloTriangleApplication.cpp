@@ -235,6 +235,13 @@ namespace Tutorial01 {
     }
 
     bool HelloTriangleApplication::isDeviceSuitable(VkPhysicalDevice dv) {
+        // todo Check what properties must requested
+        VkPhysicalDeviceProperties deviceProperties;
+        vkGetPhysicalDeviceProperties(dv,&deviceProperties);
+        // todo Check what features must requested
+        VkPhysicalDeviceFeatures deviceFeatures;
+        vkGetPhysicalDeviceFeatures(dv,&deviceFeatures);
+
         QueueFamilyIndices indices = findQueueFamilies(dv);
 
         bool extensionSupported = checkDeviceExtensionSupport(dv);
